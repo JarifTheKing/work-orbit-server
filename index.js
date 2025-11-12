@@ -8,7 +8,10 @@ const port = process.env.PORT || 5000;
 
 const admin = require("firebase-admin");
 
-const serviceAccount = require("./workorbit-firebase-adminsdk-KEY.json");
+// index.js
+const decoded = Buffer.from(process.env.FIREBASE_SERVICE_KEY, "base64").toString("utf8");
+const serviceAccount = JSON.parse(decoded);
+
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -51,7 +54,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
+    // await client.connect();
     const db = client.db("work_orbit_db");
 
     // Users Collection
@@ -327,7 +330,7 @@ async function run() {
     //   });
     // });
 
-    await db.command({ ping: 1 });
+    // await db.command({ ping: 1 });
     console.log("Successfully Ping to MongoDB!");
   } catch (err) {
     console.error("MongoDB connection error:", err.message);

@@ -1,3 +1,4 @@
 node_modules
 .env
 workorbit-firebase-adminsdk-KEY.json
+.vercel
