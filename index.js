@@ -9,9 +9,11 @@ const port = process.env.PORT || 5000;
 const admin = require("firebase-admin");
 
 // index.js
-const decoded = Buffer.from(process.env.FIREBASE_SERVICE_KEY, "base64").toString("utf8");
+const decoded = Buffer.from(
+  process.env.FIREBASE_SERVICE_KEY,
+  "base64"
+).toString("utf8");
 const serviceAccount = JSON.parse(decoded);
-
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -86,7 +88,7 @@ async function run() {
     });
 
     // Post - Users
-    app.post("/users", verifyFirebaseToken, async (req, res) => {
+    app.post("/users", async (req, res) => {
       const newUser = req.body;
       const email = req.body.email;
       const query = { email: email };
@@ -113,7 +115,7 @@ async function run() {
       }
       const result = await jobsCollection
         .find(query)
-        .sort({ postedAt: -1 })
+        .sort({ postedAt: 1 })
         .toArray();
       res.json(result);
     });
@@ -128,7 +130,7 @@ async function run() {
     });
 
     // Post - All Jobs
-    app.post("/allJobs", verifyFirebaseToken, async (req, res) => {
+    app.post("/allJobs", async (req, res) => {
       console.log("header in the post", req.headers);
       const newJob = req.body;
       const result = await jobsCollection.insertOne(newJob);
@@ -136,7 +138,7 @@ async function run() {
     });
 
     // update - all jobs
-    app.patch("/allJobs/:id", verifyFirebaseToken, async (req, res) => {
+    app.patch("/allJobs/:id", async (req, res) => {
       const id = req.params.id;
       const updateJob = req.body;
       const query = { _id: new ObjectId(id) };
@@ -154,7 +156,7 @@ async function run() {
     });
 
     // delete - all jobs
-    app.delete("/allJobs/:id", verifyFirebaseToken, async (req, res) => {
+    app.delete("/allJobs/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await jobsCollection.deleteOne(query);
@@ -184,7 +186,7 @@ async function run() {
     });
 
     // Post
-    app.post("/someJobs", verifyFirebaseToken, async (req, res) => {
+    app.post("/someJobs", async (req, res) => {
       const newJob = req.body;
       const result = await someJobsCollection.insertOne(newJob);
       res.send(result);
@@ -218,7 +220,7 @@ async function run() {
     //   const result = await tasksCollection.insertOne(task);
     //   res.send(result);
     // });
-    app.post("/myTasks", verifyFirebaseToken, async (req, res) => {
+    app.post("/myTasks", async (req, res) => {
       const task = req.body;
 
       if (task.workerEmail === task.clientEmail) {
@@ -240,7 +242,7 @@ async function run() {
     // });
 
     // delete - accept task
-    app.delete("/myTasks/:id", verifyFirebaseToken, async (req, res) => {
+    app.delete("/myTasks/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await tasksCollection.deleteOne(query);
@@ -280,7 +282,7 @@ async function run() {
     });
 
     // Post - added Jobs
-    app.post("/myAddedJobs", verifyFirebaseToken, async (req, res) => {
+    app.post("/myAddedJobs", async (req, res) => {
       console.log("header in the post [My Added Jobs]", req.headers);
       const newJob = req.body;
       const result = await addedJobsCollection.insertOne(newJob);
@@ -288,7 +290,7 @@ async function run() {
     });
 
     // update - myAdded Jobs
-    app.patch("/myAddedJobs/:id", verifyFirebaseToken, async (req, res) => {
+    app.patch("/myAddedJobs/:id", async (req, res) => {
       const id = req.params.id;
       const updateJob = req.body;
       const query = { _id: new ObjectId(id) };
@@ -306,7 +308,7 @@ async function run() {
     });
 
     // delete - myAdded Jobs
-    app.delete("/myAddedJobs/:id", verifyFirebaseToken, async (req, res) => {
+    app.delete("/myAddedJobs/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await addedJobsCollection.deleteOne(query);
@@ -323,7 +325,7 @@ async function run() {
     //   // Step 2: delete from allJobs collection
     //   const deleteFromAll = await jobsCollection.deleteOne(query);
 
-    //   // Step 3: response পাঠানো
+    //   // Step 3: response
     //   res.send({
     //     myAddedJobsDeleted: deleteFromAdded.deletedCount,
     //     allJobsDeleted: deleteFromAll.deletedCount,
@@ -343,5 +345,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Hey Jarif! Server running on port ${port}`);
 });

@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Tourney:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap");
+
+/* Logo fonts */
+.logo-font {
+  font-family: "Tourney", sans-serif;
+}
+
+* {
+  font-family: "Saira", sans-serif;
+}
+
+@import "tailwindcss";
+@plugin "daisyui";
+
+@reference "tailwindcss";
+
+.btn-primary {
+  @apply text-white bg-gradient-to-r from-[#3620FE] to-[#2079FE];
+}
+
+.btn-primary:hover {
+  @apply from-[#2079FE] to-[#3620FE] scale-105 shadow-lg;
+}
+
+a.active {
+  border-bottom: 2px solid #c7dbf8;
+  border-radius: 6px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 28s linear infinite;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 25s linear infinite;
+}
